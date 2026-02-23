@@ -22,6 +22,7 @@ Express Train mainly focuses on:
 | Codebase Structure | MVC + Services |
 | Language | TypeScript |
 | Runtime | Node.js     |
+| Web Server | Express.js     |
 | Build & Dependencies | NPM |
 | Containers | Docker & Docker Compose |
 | Database | Postgres |
