@@ -1,5 +1,5 @@
 {
-  "name": "ts-web-backend",
+  "name": "express-train",
   "version": "0.0.1",
   "description": "Web backend for TypeScript and Node.js",
   "main": "index.js",

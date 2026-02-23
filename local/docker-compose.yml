@@ -1,4 +1,4 @@
-name: ts-web-backend
+name: express-train
 services:
   backend:
     build:
@@ -8,7 +8,7 @@ services:
     volumes:
       - ../:/home/node/app
     ports:
-      - "3000:3000"
+      - '3000:3000'
     depends_on:
       - postgres
     links:
@@ -19,16 +19,16 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: ts_web_backend_dev
-      POSTGRES_TEST_DB: ts_web_backend_test
+      POSTGRES_DB: express_train_dev
+      POSTGRES_TEST_DB: express_train_test
       PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
       - pgdata:/var/lib/postgresql/data
       - ./init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
     ports:
-      - "5438:5432"
+      - '5438:5432'
     expose:
-      - "5432"
+      - '5432'
 
 volumes:
   pgdata: {}
