@@ -1,6 +1,19 @@
-# About
+# Express Train
 
-Foundation project to be used as base or reference for web backends written in TypeScript and targeting the Node.js runtime.
+This is the express transport of your backend code from dev to production stations.
+
+- Express Train is another small and but very opinionated TS web framework running on top of [Express(https://expressjs.com/);
+- It aims to bring a fast way to start and deploy TypeScript backend applications without needing to waste time with a lot of initial bikeshedding (deciding the tech stack, configuring dependencies, request/response paylaod structures, CI/CD etc);
+- The framework utilizes a well-known set of design patterns (MVC, Services, Serializers etc) to better organize code without requiring engineers to study new alian concepts, structures and use tons of decorators;
+- It is inspired by Ruby on Rails (Ruby) and Phoenix (Elixir), although being much more lightweight and opinionated in several aspects.
+
+Express Train mainly focuses on:
+
+1. Making it easy to add new resources to your API;
+2. Being able to interact with code via dynamic REPL;
+3. Write automated tests with little to no configuration;
+5. CI/CD ready to run with GitHub Actions;
+4. Ready to deploy to Fly.io.
 
 ## Tech Stack
 
@@ -16,7 +29,6 @@ Foundation project to be used as base or reference for web backends written in T
 | Tests | Jest |
 | CI/CD | GitHub Actions |
 | Deployment | Fly.io |
-
 
 # Installation
 
@@ -142,7 +154,7 @@ Backend applications are deployed to Fly.io. In order to manually deploy a new r
 application, one just needs to run:
 
 ```sh
- fly deploy --app ts-web-backend-staging
+ fly deploy --app express-train-staging
 ```
 
 After the command is done, the backend will be deployed to staging environment.
@@ -153,7 +165,7 @@ If an image fails to deploy you can the logs in Fly.io then test it locally. Fir
 deployment image in you local:
 
 ```sh
-docker build -t ts-web-backend:staging -f Dockerfile .
+docker build -t express-train:staging -f Dockerfile .
 ```
 
 You can also run it locally (mimicing what Fly.io does) by running:
@@ -164,11 +176,11 @@ You can also run it locally (mimicing what Fly.io does) by running:
 Show user details:
 
 ```sh
-curl https://ts-web-backend-staging.fly.dev/api/v1/users/ee251031-aa94-46a2-b80c-aab671b48063
+curl https://express-train-staging.fly.dev/api/v1/users/ee251031-aa94-46a2-b80c-aab671b48063
 ```
 
 ```sh
-docker run --rm -it -e DATABASE_URL="postgresql://postgres:postgres@host.docker.internal:5438/ts_web_backend_dev?schema=public" -p 3001:3000 ts-web-backend:staging
+docker run --rm -it -e DATABASE_URL="postgresql://postgres:postgres@host.docker.internal:5438/express_train_dev?schema=public" -p 3001:3000 express-train:staging
 ```
 
 # Database
@@ -178,13 +190,13 @@ docker run --rm -it -e DATABASE_URL="postgresql://postgres:postgres@host.docker.
 Connect to the database hosted in Fly.io via command line:
 
 ```sh
-fly postgres connect --app ts-web-backend-staging --database ts_backend_database_staging
+fly postgres connect --app express-train-staging --database ts_backend_database_staging
 ```
 
 Or open a SSH tunnel to Fly's internal network:
 
 ```sh
-fly proxy 5432:5432 -a ts-web-backend-staging
+fly proxy 5432:5432 -a express-train-staging
 ```
 
 Then you can use any database client of your choice and connect to the external
