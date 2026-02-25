@@ -31,17 +31,69 @@ Express Train mainly focuses on:
 | CI/CD | GitHub Actions |
 | Deployment | Fly.io |
 
+## Architecture
+
+### Overview
+
+```
+Request
+  └─► Router (src/web/routes/)
+        └─► Controller (src/web/controllers/)
+              │  deserializes request body via Serializer + Contract
+              └─► Service (src/services/)
+                    │  calls Entity.prepareForPersistence() for validation/shaping
+                    └─► Repository (src/models/<model>/
+                          │  calls prisma.<model>.create / findUnique / etc.
+                          └─► Prisma Client → PostgreSQL
+```
+
+- **Controllers** are thin: deserialize input, call a service, serialize output.
+- **Services** own business logic; they use the entity for validation and the repository for persistence.
+- **Serializers** transforms data from one format to another. Typically from JSON objects to DTO/Entity (deserialization) and vice-versa (serialization).
+- **Model Entities** are DTOs with validation — not ActiveRecord-style objects.
+- **Model Repositories** are the only layer that touches `prisma` directly.
+
+### Models - Adding a New Model
+
+1. Add the model to `src/models/schema.prisma`
+2. Run `npx prisma migrate dev --name <migration_name>` inside the container
+3. Run `npx prisma generate` to regenerate the client
+4. Create `src/models/<model>/<model>_entity.ts` (DTO + validation)
+5. Create `src/models/<model>/<model>_repository.ts` (Prisma wrapper)
+6. Re-export both from `src/models/index.ts`
+
+### Request/Reponse Flow
+
+- **Request**: request (JSON:API) → router → controller → serializer → service → entity → repository → ORM (Prisma)
+- **Response**: ORM (Prisma) → repository → entity → service → controller → serializer → response (JSON:API)
+
 # Installation
 
 ## Single-Step Installation
+
+Clone the project to your development folder:
+
+```sh
+git clone https://github.com/tiagopog/express-train.git
+```
+
+Rename the project to the name of your app:
+
+```sh
+mv express-train my-app
+```
 
 In the root of the project you should be able to run this single command and
 have it all set up (Docker images, environment and database) and be ready to start
 developing.
 
 ```sh
+cd my-app
+
 npm run local:init
 ```
+
+If it attempts to start the database container but fails after several attempts, just re-run the command it should work. Now when Prisma asks for applying migrations, just accept it.
 
 ## Alternative Steps for Installation
 
@@ -82,6 +134,34 @@ Or from your local shell (host) you can directly run:
 
 ```sh
 npm run docker:repl
+```
+
+Example of usage:
+
+```sh
+// inside the backend container you can just run:
+> npm run repl
+
+> ====== TS interactive shell ======
+Loaded: /home/node/app/src/common/encryption.ts
+...
+Loaded: /home/node/app/src/web/serializers/user_serializer.ts
+
+> await UserService.get('0d9060a6-5a27-4129-8c03-4d96bfbea61c');
+prisma:query SELECT "public"."users"."id", "public"."users"."uuid", "public"."users"."name", "public"."users"."email", "public"."users"."password_hash", "public"."users"."is_confirmed", "public"."users"."is_deleted", "public"."users"."last_sign_in_at", "public"."users"."created_at", "public"."users"."updated_at" FROM "public"."users" WHERE ("public"."users"."uuid" = $1 AND 1=1) LIMIT $2 OFFSET $3
+
+{
+  id: 1,
+  uuid: '0d9060a6-5a27-4129-8c03-4d96bfbea61c',
+  name: 'Manoel da Silva',
+  email: 'manoel.silva@gmail.com',
+  passwordHash: null,
+  isConfirmed: false,
+  isDeleted: false,
+  lastSignInAt: null,
+  createdAt: 2026-02-24T20:30:06.358Z,
+  updatedAt: 2026-02-24T20:46:58.334Z
+}
 ```
 
 ### Web Server
