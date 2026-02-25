@@ -50,6 +50,9 @@ jobs:
       - name: Run database migrations
         run: npm run db:migrate
 
+      - name: Generate Prisma client
+        run: npx prisma generate
+
       - name: Run Jest tests
         run: NODE_OPTIONS=--experimental-vm-modules npx jest --coverage -c 'src/tests/jest.config.js'
 
