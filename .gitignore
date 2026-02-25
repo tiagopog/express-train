@@ -37,6 +37,7 @@ typings/
 # Optional eslint cache
 .eslintcache
 
+# Jest
 */.jest/cache
 
 # Optional REPL history
@@ -55,19 +56,8 @@ typings/
 !**/*.env.test
 !.env.sample
 
-# CDK asset staging directory
-.cdk.staging
-cdk.out
-cdk.context.json
-template.yaml
-
-# next.js build output
-.next
-dist
-
 # Local setup
 local-setup/tmp
-.husky/_/*
 
 # Editor directories and files
 .idea
@@ -82,12 +72,17 @@ tags
 .vscode
 .zed
 
-*.zip
-
 # REPL History
 .repl_history
 
 # GitHub Actions
 .github/workflows/.secrets
 
+# Other
+*.zip
 
+# Prisma
+src/models/generated
+
+# AI
+.claude
