@@ -16,6 +16,7 @@ RUN npm install
 
 COPY --chown=node:node . .
 
+ARG DATABASE_URL
 RUN npx prisma generate
 
 EXPOSE 3000

@@ -31,6 +31,7 @@ COPY --from=build --chown=node:node /home/node/app/node_modules/.prisma ./node_m
 COPY --from=build --chown=node:node /home/node/app/src/models/migrations ./src/models/migrations
 COPY --from=build --chown=node:node /home/node/app/src/models/schema.prisma ./src/models/schema.prisma
 
+ARG DATABASE_URL
 RUN npx prisma generate
 
 EXPOSE 3000

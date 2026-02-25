@@ -5,10 +5,11 @@ set -e
 echo -e "1. Set up local environment:"
 
 ./init-env.sh
+source .env
 
 echo -e "2. Start local stack:"
 
-docker-compose build
+docker-compose build --build-arg DATABASE_URL=${DATABASE_URL}
 
 docker-compose up -d
 
