@@ -7,7 +7,7 @@
   "scripts": {
     "local:init": "cd ./local && ./init.sh && cd ..",
     "docker:shell": "cd ./local && docker-compose run --rm --service-ports backend sh",
-    "docker:repl": "cd ./local && docker-compose run --rm --service-ports backend npx ts-node repl.ts",
+    "docker:repl": "cd ./local && docker-compose run --rm backend npx tsx repl.ts",
     "docker:server": "cd ./local && docker-compose run --rm --service-ports backend npm run server",
     "repl": "npx tsx repl.ts",
     "server": "npx tsx src/web/index.ts",

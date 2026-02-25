@@ -1,6 +1,12 @@
 import * as repl from 'repl'
 import * as path from 'path'
 import * as fs from 'fs'
+import { fileURLToPath } from 'url'
+import { createRequire } from 'module'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+const require = createRequire(import.meta.url)
 
 /*
  * Helpers
@@ -64,7 +70,7 @@ let server = repl.start({
   useColors: true,
 })
 
-console.log('TypeScript interactive shell')
+console.log('====== TS interactive shell ======')
 
 // Initial load of the source files
 const srcDir = path.resolve(__dirname, './src')
