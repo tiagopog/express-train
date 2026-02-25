@@ -180,6 +180,37 @@ npm run db:seed          # or: npx prisma db seed
 
 ---
 
+## Docker
+
+### Getting the Backend Container ID
+
+The backend container ID changes every time the container is recreated. To get the current one, run:
+
+```sh
+docker ps | awk '/express-train-backend/ {print $1}'
+```
+
+Use this ID for any `docker exec` commands, e.g.:
+
+```sh
+docker exec <container_id> sh -c "cd /home/node/app && npx prisma migrate dev"
+```
+
+### Services
+
+- **backend** — Node.js 20 app, working dir `/home/node/app`, port `3000`
+- **postgres** — PostgreSQL 16, host port `5438`, internal port `5432`
+
+### Useful Commands
+
+```sh
+npm run docker:shell    # open a shell in the backend container
+npm run docker:server   # start the HTTP server inside Docker
+npm run docker:test     # run the test suite inside Docker
+```
+
+---
+
 ## Adding a New Model — Checklist
 
 1. Add the model to `src/models/schema.prisma`
