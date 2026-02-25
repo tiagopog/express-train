@@ -14,7 +14,7 @@
     "db:seed": "npx tsx local/seeds.ts",
     "db:migrate": "npx prisma migrate dev",
     "docker:test": "cd local && docker-compose run --rm backend npm test -- && cd ..",
-    "test": "jest"
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest"
   },
   "author": "Tiago Guedes",
   "license": "ISC",
