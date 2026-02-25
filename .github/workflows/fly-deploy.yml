@@ -51,7 +51,7 @@ jobs:
         run: npm run db:migrate
 
       - name: Run Jest tests
-        run: npx jest --coverage -c 'src/tests/jest.config.js'
+        run: NODE_OPTIONS=--experimental-vm-modules npx jest --coverage -c 'src/tests/jest.config.js'
 
   ##
   # CD Steps
