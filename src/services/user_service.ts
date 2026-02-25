@@ -1,3 +1,4 @@
+import { prisma } from 'config'
 import { UserEntity, UserRepository } from '../models'
 
 export class UserService {

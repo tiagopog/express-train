@@ -1,4 +1,4 @@
-import { User } from '@prisma/client'
+import { User } from '../generated/prisma/client'
 import { IsEmail, IsNotEmpty, IsString, validateSync } from 'class-validator'
 import { cleanObject, excludeKeys } from '../../common/utils'
 

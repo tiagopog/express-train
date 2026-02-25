@@ -1,4 +1,4 @@
-import { User } from '@prisma/client'
+import { User } from '../generated/prisma/client'
 import { prisma } from '../../config'
 
 export class UserRepository {

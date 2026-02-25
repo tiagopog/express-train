@@ -1,4 +1,5 @@
-import { Prisma, PrismaClient } from '@prisma/client'
+import { Prisma, PrismaClient } from '../models/generated/prisma/client'
+import { PrismaPg } from '@prisma/adapter-pg'
 import { Stage } from './environment/enum'
 
 export enum DBError {
@@ -33,8 +34,13 @@ const getLogLevel = (): Prisma.LogDefinition[] => {
  * https://github.com/prisma/prisma/issues/1983#issuecomment-930200155
  */
 export const buildClient = (log?: Prisma.LogDefinition[]): PrismaClient => {
+  const adapter = new PrismaPg({
+    connectionString: process.env.DATABASE_URL,
+  })
+
   log ||= getLogLevel()
-  return new PrismaClient({ log })
+
+  return new PrismaClient({ adapter, log })
 }
 
 export const prisma = buildClient()

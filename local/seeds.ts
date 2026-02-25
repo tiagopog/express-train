@@ -1,4 +1,4 @@
-import { User } from '@prisma/client'
+import { User } from '../src/models/generated/prisma/client'
 import { buildClient } from '../src/config'
 
 const prisma = buildClient([{ level: 'error', emit: 'event' }])
