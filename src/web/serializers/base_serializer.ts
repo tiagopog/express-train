@@ -1,5 +1,5 @@
 import { plainToInstance } from 'class-transformer'
-import { ClassConstructor } from '../../common/types'
+import { ClassConstructor } from '../common/types'
 import { Deserializer, Serializer } from 'ts-jsonapi'
 import { validateSync } from 'class-validator'
 import { parseContractErrors } from '../errors'
